@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+
+from flask import Flask, render_template, request, flash, redirect
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'ngi787o463a64389yw563gg653wvg653536v536n89v563'
+
 def openBoc():
     global bocf
     try:
@@ -51,7 +59,7 @@ def deleteEvent(century, event):
     except:
         return False
 
-def writeBoc():
+def getTowrite():
     towrite = "# Book of Centuries\n\n"
     cennum = 0
     for century in boc:
@@ -60,17 +68,34 @@ def writeBoc():
             towrite += "  - **" + event[0] + ":** " + event[1] + "\n"
         towrite += "\n"
         cennum += 1
-    bocf.truncate(0)
-    bocf.write(towrite)
+    return towrite
 
-openBoc()
-bocraw = bocf.read()
-bocraw = bocraw.split("\n\n## Century: ")
-bocraw.pop(0)
-if(len(bocraw) < 22):
-    readBoc()
-else:
-    initBoc()
-boc
-writeBoc()
-bocf.close()
+def writeBoc():
+    bocf.truncate(0)
+    bocf.write(getTowrite())
+
+@app.route("/")
+def homepage():
+    try:
+        return render_template("boc.html", boc=zip(boc, range(len(boc))))
+    except:
+        return redirect("/start", code=307)
+
+@app.route("/start")
+def openpage():
+    openBoc()
+    global bocraw
+    bocraw = bocf.read()
+    bocraw = bocraw.split("\n\n## Century: ")
+    bocraw.pop(0)
+    if(len(bocraw) < 22):
+        readBoc()
+    else:
+        initBoc()
+    return redirect("/", code=308)
+
+#writeBoc()
+#bocf.close()
+
+if __name__ == "__main__":
+    app.run()

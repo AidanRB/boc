@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>BOC - home</title>
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <h1 class="fronttitle">Book of Centuries</h1>
+    {% for century in boc %}
+        <h2 class="centurytitle">{{ century[1] }}00s</h2>
+        <ul>
+            {% for event in century[0] %}
+                <li><span class="yearnumber">{{ event[0] }}:</span>  <span class="event">{{ event[1] }}</span></li>
+            {% endfor %}
+            <li><span class="yearinput">
+                {{ century[1] }}<input type="number" name="year" value="42" min="00" max="99">: </span>
+                <span class="eventinput"><input type="text" name="eventtext" value="Soandso killed Whoandsuch and became king of Whachamacallit"></span>
+        </ul>
+    {% endfor %}
+</body>
+
+</html>
