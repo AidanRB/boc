@@ -1,21 +1,30 @@
 <html>
 <head>
-    <title>BOC - home</title>
+    <title>BOC</title>
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
     <h1 class="fronttitle">Book of Centuries</h1>
-    {% for century in boc %}
+    {% for century in boctosend %}
         <h2 class="centurytitle">{{ century[1] }}00s</h2>
-        <ul>
+        <ol>
             {% for event in century[0] %}
                 <li><span class="yearnumber">{{ event[0] }}:</span>  <span class="event">{{ event[1] }}</span></li>
             {% endfor %}
-            <li><span class="yearinput">
-                {{ century[1] }}<input type="number" name="year" value="42" min="00" max="99">: </span>
-                <span class="eventinput"><input type="text" name="eventtext" value="Soandso killed Whoandsuch and became king of Whachamacallit"></span>
-        </ul>
+            <li><form method="post" action="add">
+                <span class="yearinput">{{ century[1] }}<input type="number" name="year" placeholder="{{ range(1, 100) | random }}" min="00" max="99" required>: </span>
+                <span class="eventinput"><input type="text" name="eventtext" placeholder="{{ phs | random }}" required></span>
+                <input type="hidden" name="century" value="{{ century[1] }}">
+                <input type="submit" value="Add" class="addbutton">
+            </form>
+        </ol>
+        <form method="post" action="delete">
+            <span class="deletetext">Delete event</span>
+            <span class="deletebox"><input type="number" name="year"></span>
+            <input type="submit" value="Delete" class="deletebutton">
+            <input type="hidden" name="century" value="{{ century[1] }}">
+        </form>
     {% endfor %}
 </body>
 

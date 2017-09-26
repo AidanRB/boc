@@ -6,6 +6,45 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ngi787o463a64389yw563gg653wvg653536v536n89v563'
 
+phs = """Someone assasinates some other person.
+The king of France... becomes the king of France.
+Soandso killed Whoandsuch and became king of Whachamacallit.
+The king of another place dies. Everone wants his throne. War, war, war!
+The PrimeMinister of Engalnd quites; confusion and death of many follow.
+The country Brttania runs out of grass. Of course, the Europian grass-sellers make a lot of money.
+One of the grass-sellers assasinates the king, takes the crown and then tries to take over the world.
+All the king's horses and all of his men (him being from Egypt) decide against war of any kind and become tree-huggers.
+Germany is invaded by bunnies from the Netherlands, but is able to defend her shores.
+Country gets conquered! And then....conquers itself back.
+The Duke of Manchester dies, and somehow that causes civil-war, and somehow it leads to a world war, and bad things happen.
+Political upheaval in New Jersey. No one notices.
+There's an arranged marriage between two members of royalty/nobility.
+The USSR decideds to change it's name to "International Place of Russiaism", and so becomes IPR.
+History repeats itself; duh, there's a war somewhere.
+France is ashamed at itself for not being betterthan everybody else.... and tries to expand her borders.
+Somebody declares a war! That....accomplishes nothing.
+Some famous philosopher is killed in Greece, and only because he's smarter than everyone else.
+There is an epidemic of giggles which spreads throughout Italy; it's hilarious!
+The Roman Empire conquers something!
+A man travels across Western Sahara as a missionary, and his adventures are published world-wide in a famous book.
+The pope's dog dies.
+King what's-his-name of that country over yonder goes crazy and is impeached.... that really confuses a lot of people.
+The people of France riot, throwing cheerios at the king.
+A seemingly insignificant short man destroys the greatest weapon known to mankind by giving it to a pale, clumsy creature.
+A doctor in Norway discovers the cause of thousands of people breaking out with "Down with the king!" is cause by a certain type of food. So the people no longer are allowed food. ...War.
+A man is nailed to a tree for saying how great it would be to be nice to people for a change.
+A certain commander is born, descended from the Root of All Evil.
+There is an uprising in a little town in Iran, so oil prices go up.
+A king decides to try to conquer the world!
+There's a major depression in Switzerland because of the duck-market. Too many people buying ducks, and then a quick decline in duck-buyers.
+Somebody wants to be king.
+Civil war over who inherits the throne!
+The President of the U. S. lives in the White House.
+Two countries fight over a trade route.
+A king of England kills his brother to ensure his entitlement to the throne.
+A prince is murdered.
+England declares war on France. Again.""".split("\n")
+
 def openBoc():
     global bocf
     try:
@@ -50,11 +89,12 @@ def editEvent(century, event, year, content):
         return False
 
 def newEvent(century, year, content):
-    boc[century - 1] = sorted(boc[century - 1] + [[str(century).zfill(2) + str(year), str(content)]])
+    century = int(century)
+    boc[century] = sorted(boc[century] + [[str(century).zfill(2) + str(year), str(content)]])
 
 def deleteEvent(century, event):
     try:
-        boc[century - 1].pop(event - 1)
+        boc[century].pop(event - 1)
         return True
     except:
         return False
@@ -77,7 +117,7 @@ def writeBoc():
 @app.route("/")
 def homepage():
     try:
-        return render_template("boc.html", boc=zip(boc, range(len(boc))))
+        return render_template("boc.html", boctosend=zip(boc, range(len(boc))), phs=phs)
     except:
         return redirect("/start", code=307)
 
@@ -93,6 +133,16 @@ def openpage():
     else:
         initBoc()
     return redirect("/", code=308)
+
+@app.route("/add", methods=['POST'])
+def addpage():
+    newEvent(request.form["century"], request.form["year"], request.form["eventtext"])
+    return redirect("/")
+
+@app.route("/delete", methods=['POST'])
+def removepage():
+    deleteEvent(int(request.form["century"]), int(request.form["year"]))
+    return redirect("/")
 
 #writeBoc()
 #bocf.close()
