@@ -112,6 +112,7 @@ def getTowrite():
 
 def writeBoc():
     bocf.truncate(0)
+    bocf.seek(0)
     bocf.write(getTowrite())
 
 @app.route("/")
@@ -142,6 +143,11 @@ def addpage():
 @app.route("/delete", methods=['POST'])
 def removepage():
     deleteEvent(int(request.form["century"]), int(request.form["year"]))
+    return redirect("/")
+
+@app.route("/save", methods=['POST'])
+def savepage():
+    writeBoc()
     return redirect("/")
 
 #writeBoc()
