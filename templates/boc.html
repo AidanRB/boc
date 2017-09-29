@@ -2,27 +2,29 @@
 <head>
     <title>BOC</title>
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+    <link rel= "stylesheet" type= "text/css" href= "static/style.css">
 </head>
 
 <body>
     <h1 class="fronttitle">Book of Centuries</h1>
-    <form method="post" action="save"><input type="submit" value="Save" class="savebutton"></form>
+    <form method="post" action="save"><input type="submit" value="Save changes" class="savebutton"></form>
     {% for century in boctosend %}
         <h2 class="centurytitle">{{ century[1] }}00s</h2>
         <ol>
             {% for event in century[0] %}
                 <li><span class="yearnumber">{{ event[0] }}:</span>  <span class="event">{{ event[1] }}</span></li>
             {% endfor %}
-            <li><form method="post" action="add">
-                <span class="yearinput">{{ century[1] }}<input type="number" name="year" placeholder="{{ range(1, 100) | random }}" min="00" max="99" required>: </span>
-                <span class="eventinput"><input type="text" name="eventtext" placeholder="{{ phs | random }}" required></span>
+
+            <li class="addli"><form method="post" action="add">
                 <input type="hidden" name="century" value="{{ century[1] }}">
+                {{ century[1] }} <input type="number" name="year" placeholder="{{ range(1, 100) | random }}" min="0" max="99" required class="yearinput">:
+                <textarea name="eventtext" placeholder="{{ phs | random }}" required class="eventinput"></textarea>
                 <input type="submit" value="Add" class="addbutton">
             </form>
         </ol>
         <form method="post" action="delete">
             <span class="deletetext">Delete event</span>
-            <span class="deletebox"><input type="number" name="year"></span>
+            <input type="number" name="year" min="0" max="999" required class="deleteinput">
             <input type="submit" value="Delete" class="deletebutton">
             <input type="hidden" name="century" value="{{ century[1] }}">
         </form>

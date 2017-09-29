@@ -1,0 +1,84 @@
+/* General/misc */
+html {
+    color: white;
+    background: #212121;
+}
+
+/* Headers */
+.fronttitle {
+    font-family: open sans;
+    font-weight: lighter;
+    font-size: 400%;
+    margin-bottom: 10px;
+}
+
+.centurytitle {
+    font-family: open sans;
+    font-weight: lighter;
+    font-size: 300%;
+    margin-bottom: 0;
+}
+
+/* Text inputs */
+.eventinput, .yearinput, .deleteinput {
+    color: white;
+    background: #212121;
+    border: none;
+    padding: 5px;
+    font-size: 95%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.eventinput {
+    vertical-align: top;
+    font-family: inherit;
+    height: 75px;
+    width: 500px;
+}
+
+.deleteinput {
+}
+
+/* Buttons */
+input[type="submit"] {
+    transition: 250ms all;
+    border-radius: 2px;
+    border: none;
+    background: #C2185B;
+    color: white;
+    padding: 5px 8px 5px 8px;
+}
+
+input[type="submit"]:hover {
+    box-shadow: 0 4px 8px black;
+    background: #880e4f;
+}
+
+input[type="submit"]:focus {
+    background: #880e4f;
+    outline: 0;
+    box-shadow: 0 0 8px black;
+}
+
+.savebutton[type="submit"] {
+    /*height: 40px;
+    width: 80px;*/
+    font-size: 100%;
+    font-variant: small-caps;
+    margin-left: 20px;
+    padding: 20px 30px 20px 30px;
+}
+
+.savebutton[type="submit"]:hover {
+    box-shadow: 0 8px 16px black;
+}
+
+.savebutton[type="submit"]:focus {
+    box-shadow: 0 0 16px black;
+}
+
+/* Lists */
+ol {
+    margin: 0;
+}
