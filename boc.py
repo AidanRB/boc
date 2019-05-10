@@ -129,7 +129,7 @@ def openpage():
     bocraw = bocf.read()
     bocraw = bocraw.split("\n\n## Century: ")
     bocraw.pop(0)
-    if(len(bocraw) < 22):
+    if(len(bocraw) > 5):
         readBoc()
     else:
         initBoc()
